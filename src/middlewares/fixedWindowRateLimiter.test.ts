@@ -22,7 +22,7 @@ describe('isWithinFixedWindow()', () => {
     const isWithinFixedWindow = makeIsWithinFixedWindow(1, 1)
 
     isWithinFixedWindow('192.168.1.1')
-    jest.advanceTimersByTime(1 * 60 * 1000)
+    jest.advanceTimersByTime(60 * 1000)
     expect(isWithinFixedWindow('192.168.1.1')).toBe(true)
   })
 
