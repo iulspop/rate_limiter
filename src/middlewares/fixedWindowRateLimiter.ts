@@ -49,7 +49,7 @@ export function makeIsWithinFixedWindow(windowSizeMinutes: number, maxRequestCou
   }
 }
 
-export function rateLimiter({
+export function fixedWindowRateLimiter({
   windowSizeMinutes,
   maxRequestCount,
 }: {

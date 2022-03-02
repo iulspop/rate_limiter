@@ -1,11 +1,11 @@
 import express from 'express'
 import 'express-async-errors'
 
-import { rateLimiter } from './middlewares/rateLimiter'
+import { fixedWindowRateLimiter } from './middlewares/fixedWindowRateLimiter'
 
 const app = express()
 
-app.use(rateLimiter({ windowSizeMinutes: 1, maxRequestCount: 10 }))
+app.use(fixedWindowRateLimiter({ windowSizeMinutes: 1, maxRequestCount: 10 }))
 
 app.get('/', (req, res) => {
   res.send('hello world')
