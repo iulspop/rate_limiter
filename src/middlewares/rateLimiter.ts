@@ -1,16 +1,3 @@
-/*
-
-Fixed Time Window
-
-within closure => hash of IP adress
-isWithinFixedWindow(ipAddress, reqTimestamp, currentTime) => true/false
-
-rateLimiterMiddleware(req, res, next) => next() // accepted request || res.sendStatus(429) // too many requests
-
-rateLimiter({ windowSizeMinutes, maxRequestCount }) => rateLimiterMiddleware
-
-*/
-
 import { Request, Response, NextFunction } from 'express'
 
 export function roundDateToTopOfHour(currentTime: Date): Date {
@@ -26,9 +13,9 @@ export function roundDateToTopOfMinute(currentTime: Date): Date {
   return currentTime
 }
 
-export function calculateMillisecondsToTopOfHour(currentTime: Date): number {
-  const topOfHour = roundDateToTopOfMinute(currentTime)
-  return topOfHour.getTime() - currentTime.getTime()
+export function calculateMillisecondsToTopOfMiniute(currentTime: Date): number {
+  const topOfMinute = roundDateToTopOfMinute(currentTime)
+  return topOfMinute.getTime() - currentTime.getTime()
 }
 
 export function makeIsWithinFixedWindow(windowSizeMinutes: number, maxRequestCount: number) {
@@ -38,16 +25,16 @@ export function makeIsWithinFixedWindow(windowSizeMinutes: number, maxRequestCou
     ipAddresses = {}
   }
 
-  const millisecondsToTopOfHour = calculateMillisecondsToTopOfHour(new Date())
+  const millisecondsToTopOfMinute = calculateMillisecondsToTopOfMiniute(new Date())
   setTimeout(() => {
     clearIpAddresses()
     const windowIntervalInMilliseconds = windowSizeMinutes * 60 * 1000
     setInterval(() => {
       clearIpAddresses()
     }, windowIntervalInMilliseconds)
-  }, millisecondsToTopOfHour)
+  }, millisecondsToTopOfMinute)
 
-  return (ipAddress: string, currentTime: Date): boolean => {
+  return (ipAddress: string): boolean => {
     if (ipAddresses[ipAddress]) {
       if (ipAddresses[ipAddress] < maxRequestCount) {
         ipAddresses[ipAddress]++
@@ -73,7 +60,6 @@ export function rateLimiter({
 
   return (req: Request, res: Response, next: NextFunction): void => {
     const ipAddress = req.ip
-    const currentTime = new Date()
-    isWithinFixedWindow(ipAddress, currentTime) ? next() : res.sendStatus(429)
+    isWithinFixedWindow(ipAddress) ? next() : res.sendStatus(429)
   }
 }
