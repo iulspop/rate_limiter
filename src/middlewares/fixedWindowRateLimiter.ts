@@ -6,7 +6,7 @@ export function roundDateToTopOfMinute(currentTime: Date): Date {
   return currentTime
 }
 
-export function calculateMillisecondsToTopOfMiniute(currentTime: Date): number {
+export function calculateMillisecondsToTopOfMinute(currentTime: Date): number {
   const topOfMinute = roundDateToTopOfMinute(currentTime)
   return topOfMinute.getTime() - currentTime.getTime()
 }
@@ -18,7 +18,7 @@ export function makeIsWithinFixedWindow(windowSizeMinutes: number, maxRequestCou
     ipAddresses = {}
   }
 
-  const millisecondsToTopOfMinute = calculateMillisecondsToTopOfMiniute(new Date())
+  const millisecondsToTopOfMinute = calculateMillisecondsToTopOfMinute(new Date())
   setTimeout(() => {
     clearIpAddresses()
     const windowIntervalInMilliseconds = windowSizeMinutes * 60 * 1000
