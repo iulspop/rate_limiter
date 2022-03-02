@@ -1,12 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 
-export function roundDateToTopOfHour(currentTime: Date): Date {
-  currentTime = new Date(currentTime.getTime())
-  currentTime.setHours(currentTime.getHours() + Math.round(currentTime.getMinutes() / 60))
-  currentTime.setMinutes(0, 0, 0)
-  return currentTime
-}
-
 export function roundDateToTopOfMinute(currentTime: Date): Date {
   currentTime = new Date(currentTime.getTime())
   currentTime.setMinutes(currentTime.getMinutes() + 1)
