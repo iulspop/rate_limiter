@@ -5,7 +5,7 @@ describe('isWithinFixedWindow()', () => {
     jest.useFakeTimers()
   })
 
-  it('returns false if request count not crossed limit', () => {
+  it('returns true if request count not crossed limit', () => {
     const isWithinFixedWindow = makeIsWithinFixedWindow(1, 1)
 
     expect(isWithinFixedWindow('192.168.1.1')).toBe(true)
